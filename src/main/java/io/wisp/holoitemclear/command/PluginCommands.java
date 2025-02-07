@@ -25,6 +25,7 @@ public class PluginCommands implements CommandExecutor {
             return true;
         }
 
+        //
         if (args.length < 1) {
             CommonConfig.USAGE_MESSAGE.getProvider().sendMessage(playerUUID);
             return true;
