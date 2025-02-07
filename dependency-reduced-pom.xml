@@ -4,7 +4,7 @@
   <groupId>io.wisp</groupId>
   <artifactId>HoloItemClear</artifactId>
   <name>HoloItemClear</name>
-  <version>1.1.4</version>
+  <version>1.1.6</version>
   <build>
     <resources>
       <resource>

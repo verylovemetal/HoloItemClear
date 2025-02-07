@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class DroppedItemData {
+public class DroppedItemTracker {
+
+    @Getter
+    private static final DroppedItemTracker instance = new DroppedItemTracker();
 
     private final Map<Entity, Integer> droppedItems = new HashMap<>();
 

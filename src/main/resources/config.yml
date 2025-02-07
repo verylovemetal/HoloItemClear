@@ -7,6 +7,7 @@ messages:
   on-clear-message: "&aВы очистили всё с пола!"
   usage-message: "&fУкажите что вы хотите сделать: &a/hic clear"
   no-permission: "&cНет прав на данную команду!"
+  config-reload-message: "&aВы перезагрузили конфиг!"
 
 particle-settings:
   use-particle-on-clear: true # Использовать ли партиклы при очистке предмета
@@ -18,14 +19,12 @@ particle-settings:
 
 
 sound-settings:
-  use-sound-on-clear: false # Использовать ли звук при очистке предмета
+  use-sound-on-clear: true # Использовать ли звук при очистке предмета
   radius: 7 # Радиус в блоках от предмета, чтобы услышать звук
   sound-name-on-clear: "ENTITY_ITEM_BREAK" # Название звука, можно найти по запросу: "звуки майнкрафт spigot"
   volume-on-clear: 0.3 # Громкость звука
   pitch-on-clear: 1.0 # Высота звука
 
-advanced-enchantments:
-  hook: false # Использовать ли подключение advanced-enchantments? true - Да | false - Нет
-  block-enchantments: # Энчанты которые будут блокироваться, точнее не будут выбрасывать предмет на пол с таймером
-    - "telepathy" # Данные названия берутся из enchantments в папке advancedenchantments (Читать в статье на сайтах с этим плагином!)
-    - "auto_pickup"
+items-settings:
+  DIAMOND_BLOCK: # Материя предмета которого нужно проверять
+    start-clear-item: 25 # Указывать в секундах

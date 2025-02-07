@@ -11,5 +11,3 @@ commands:
     aliases:
       - hic
       - itemclear
-softdepend:
-  - AdvancedEnchantments

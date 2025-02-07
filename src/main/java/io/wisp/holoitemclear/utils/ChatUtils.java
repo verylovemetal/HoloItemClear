@@ -5,8 +5,8 @@ import org.bukkit.ChatColor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Colorize {
-    public static String hex(String from) {
+public class ChatUtils {
+    public static String format(String from) {
         Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
         Matcher matcher = pattern.matcher(from);
         while (matcher.find()) {
