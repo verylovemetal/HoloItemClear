@@ -19,6 +19,10 @@ import java.util.Map;
 @Setter
 public class ClearTask extends BukkitRunnable {
 
+    /**
+     * Данная система будет переписана, так как
+     * она не очень выглядит, хотя нормально работает
+     */
     @Override
     public void run() {
         DroppedItemTracker droppedItemTracker = DroppedItemTracker.getInstance();
