@@ -1,5 +1,6 @@
 package io.wisp.holoitemclear.listener;
 
+import io.wisp.holoitemclear.config.CommonConfig;
 import io.wisp.holoitemclear.item.impl.AddItemAction;
 import io.wisp.holoitemclear.item.impl.RemoveItemAction;
 import lombok.Setter;
@@ -8,7 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
+
+import java.util.List;
 
 @Setter
 public class ItemListener implements Listener {
@@ -16,7 +18,14 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onItemSpawn(ItemSpawnEvent event) {
         Item droppedItem = event.getEntity();
-       AddItemAction.getInstance().onAction(droppedItem);
+        String worldName = droppedItem.getWorld().getName();
+        List<String> blacklistedWorlds = CommonConfig.WORLD_BLACKLIST.getProvider().getValue();
+
+        if (!blacklistedWorlds.isEmpty() && blacklistedWorlds.contains(worldName)) {
+            return;
+        }
+
+        AddItemAction.getInstance().onAction(droppedItem);
     }
 
     @EventHandler

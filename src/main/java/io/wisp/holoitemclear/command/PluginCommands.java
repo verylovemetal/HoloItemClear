@@ -2,7 +2,7 @@ package io.wisp.holoitemclear.command;
 
 import io.wisp.holoitemclear.Main;
 import io.wisp.holoitemclear.config.CommonConfig;
-import io.wisp.holoitemclear.data.DroppedItemTracker;
+import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,6 @@ public class PluginCommands implements CommandExecutor {
             return true;
         }
 
-        //
         if (args.length < 1) {
             CommonConfig.USAGE_MESSAGE.getProvider().sendMessage(playerUUID);
             return true;

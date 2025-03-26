@@ -1,15 +1,11 @@
 package io.wisp.holoitemclear;
 
 import io.wisp.holoitemclear.command.PluginCommands;
-import io.wisp.holoitemclear.data.DroppedItemTracker;
 import io.wisp.holoitemclear.listener.ItemListener;
-import io.wisp.holoitemclear.task.ClearTask;
+import io.wisp.holoitemclear.task.ItemTimeTask;
+import io.wisp.holoitemclear.util.ItemUtils;
 import lombok.Getter;
-import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Iterator;
-import java.util.Map;
 
 @Getter
 public final class Main extends JavaPlugin {
@@ -29,20 +25,11 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        DroppedItemTracker droppedItemTracker = DroppedItemTracker.getInstance();
-        Iterator<Map.Entry<Entity, Integer>> iterator = droppedItemTracker.getDroppedItems().entrySet().iterator();
-
-        while (iterator.hasNext()) {
-            Map.Entry<Entity, Integer> entry = iterator.next();
-            Entity item = entry.getKey();
-            item.remove();
-            iterator.remove();
-            droppedItemTracker.removeItem(item);
-        }
+        ItemUtils.floorItemRemove();
     }
 
     private void initRunnable() {
-        ClearTask clearTimer = new ClearTask();
+        ItemTimeTask clearTimer = new ItemTimeTask();
         clearTimer.runTaskTimer(this, 20L, 20L);
     }
 

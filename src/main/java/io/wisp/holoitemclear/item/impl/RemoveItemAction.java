@@ -1,6 +1,6 @@
 package io.wisp.holoitemclear.item.impl;
 
-import io.wisp.holoitemclear.data.DroppedItemTracker;
+import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import io.wisp.holoitemclear.item.IActionItem;
 import lombok.Getter;
 import org.bukkit.entity.Item;
@@ -12,7 +12,6 @@ public class RemoveItemAction implements IActionItem {
 
     @Override
     public void onAction(Item item) {
-        DroppedItemTracker droppedItemTracker = DroppedItemTracker.getInstance();
-        droppedItemTracker.removeItem(item);
+        DroppedItemTracker.getInstance().removeItem(item);
     }
 }

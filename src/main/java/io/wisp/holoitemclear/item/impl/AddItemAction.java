@@ -2,9 +2,9 @@ package io.wisp.holoitemclear.item.impl;
 
 import io.wisp.holoitemclear.Main;
 import io.wisp.holoitemclear.config.CommonConfig;
-import io.wisp.holoitemclear.data.DroppedItemTracker;
+import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import io.wisp.holoitemclear.item.IActionItem;
-import io.wisp.holoitemclear.utils.ChatUtils;
+import io.wisp.holoitemclear.util.ChatUtils;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,11 +30,24 @@ public class AddItemAction implements IActionItem {
             }
         }
 
-        item.setCustomName(ChatUtils.format(CommonConfig.ITEM_TEXT.getProvider().getValue().toString()
-                .replace("%time%", String.valueOf(clearTime))));
-        item.setCustomNameVisible(true);
+        if (clearTime <= 0) {
+            return;
+        }
 
         DroppedItemTracker.getInstance().addItem(item, clearTime);
+        item.setCustomNameVisible(true);
+
+        if (!(Boolean) CommonConfig.HOLOGRAM_AFTER_TIME_ENABLE.getProvider().getValue()) {
+            return;
+        }
+
+        int hologramActivationTime = CommonConfig.HOLOGRAM_AFTER_TIME_ACTIVATION.getProvider().getValue();
+        if (clearTime > hologramActivationTime) {
+            return;
+        }
+
+        item.setCustomName(ChatUtils.format(CommonConfig.ITEM_TEXT.getProvider().getValue().toString()
+                .replace("%time%", String.valueOf(clearTime))));
     }
 
 }

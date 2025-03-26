@@ -1,4 +1,4 @@
-package io.wisp.holoitemclear.utils;
+package io.wisp.holoitemclear.util;
 
 import org.bukkit.ChatColor;
 

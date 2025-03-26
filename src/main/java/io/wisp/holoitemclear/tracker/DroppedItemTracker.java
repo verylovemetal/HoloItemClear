@@ -1,4 +1,4 @@
-package io.wisp.holoitemclear.data;
+package io.wisp.holoitemclear.tracker;
 
 import lombok.Getter;
 import org.bukkit.entity.Entity;
@@ -22,7 +22,7 @@ public class DroppedItemTracker {
         droppedItems.remove(item);
     }
 
-    public void setTimeItem(Entity item, int time) {
+    public void setItemTime(Entity item, int time) {
         droppedItems.put(item, time);
     }
 }
