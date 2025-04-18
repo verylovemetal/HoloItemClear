@@ -2,21 +2,19 @@ package io.wisp.holoitemclear.command;
 
 import io.wisp.holoitemclear.Main;
 import io.wisp.holoitemclear.config.CommonConfig;
-import io.wisp.holoitemclear.tracker.DroppedItemTracker;
+import io.wisp.holoitemclear.util.ItemUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 
 public class PluginCommands implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         if (!(sender instanceof Player player)) return true;
         UUID playerUUID = player.getUniqueId();
 
@@ -37,15 +35,7 @@ public class PluginCommands implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("clear")) {
-            Iterator<Map.Entry<org.bukkit.entity.Entity, Integer>> iterator = DroppedItemTracker.getInstance().getDroppedItems().entrySet().iterator();
-
-            while (iterator.hasNext()) {
-                Map.Entry<org.bukkit.entity.Entity, Integer> entry = iterator.next();
-                Entity item = entry.getKey();
-                item.remove();
-                iterator.remove();
-            }
-
+            ItemUtils.floorItemsRemove();
             CommonConfig.ON_CLEAR_MESSAGE.getProvider().sendMessage(playerUUID);
         }
 

@@ -5,6 +5,8 @@ import org.bukkit.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.WeakHashMap;
 
 @Getter
 public class DroppedItemTracker {
@@ -12,17 +14,17 @@ public class DroppedItemTracker {
     @Getter
     private static final DroppedItemTracker instance = new DroppedItemTracker();
 
-    private final Map<Entity, Integer> droppedItems = new HashMap<>();
+    private final Map<UUID, Integer> droppedItems = new HashMap<>();
 
-    public void addItem(Entity item, int time) {
-        droppedItems.put(item, time);
+    public void addItem(UUID itemUUID, int time) {
+        droppedItems.put(itemUUID, time);
     }
 
-    public void removeItem(Entity item) {
-        droppedItems.remove(item);
+    public void removeItem(UUID itemUUID) {
+        droppedItems.remove(itemUUID);
     }
 
-    public void setItemTime(Entity item, int time) {
-        droppedItems.put(item, time);
+    public void setItemTime(UUID itemUUID, int time) {
+        droppedItems.put(itemUUID, time);
     }
 }

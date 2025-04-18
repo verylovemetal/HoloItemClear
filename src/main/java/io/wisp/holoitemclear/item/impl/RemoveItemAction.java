@@ -12,6 +12,6 @@ public class RemoveItemAction implements IActionItem {
 
     @Override
     public void onAction(Item item) {
-        DroppedItemTracker.getInstance().removeItem(item);
+        DroppedItemTracker.getInstance().removeItem(item.getUniqueId());
     }
 }

@@ -5,31 +5,38 @@ import io.wisp.holoitemclear.util.ItemUtils;
 import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import io.wisp.holoitemclear.util.ChatUtils;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class ItemTimeTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Iterator<Map.Entry<Entity, Integer>> iterator = DroppedItemTracker.getInstance().getDroppedItems().entrySet().iterator();
+        Iterator<Map.Entry<UUID, Integer>> iterator = DroppedItemTracker.getInstance().getDroppedItems().entrySet().iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<Entity, Integer> entry = iterator.next();
-            Entity item = entry.getKey();
+            Map.Entry<UUID, Integer> entry = iterator.next();
+            UUID itemUUID = entry.getKey();
             int timeLeft = entry.getValue();
+
+            Entity entityItem = Bukkit.getEntity(itemUUID);
+            if (!(entityItem instanceof Item item)) continue;
+
+            item.getLocation().getChunk().load();
 
             boolean isHologramAfterTime = CommonConfig.HOLOGRAM_AFTER_TIME_ENABLE.getProvider().getValue();
             if (isHologramAfterTime) {
                 int hologramActivationTime = CommonConfig.HOLOGRAM_AFTER_TIME_ACTIVATION.getProvider().getValue();
-
                 if (timeLeft > hologramActivationTime) {
-                    DroppedItemTracker.getInstance().setItemTime(item, timeLeft - 1);
-                    return;
+                    DroppedItemTracker.getInstance().setItemTime(itemUUID, timeLeft - 1);
+                    continue;
                 }
             }
 
@@ -37,11 +44,12 @@ public class ItemTimeTask extends BukkitRunnable {
                 ItemUtils.applyEffectsOnClear(item);
                 item.remove();
                 iterator.remove();
-                DroppedItemTracker.getInstance().removeItem(item);
             } else {
-                DroppedItemTracker.getInstance().setItemTime(item, timeLeft - 1);
-                item.setCustomName(ChatUtils.format(ItemUtils.getFormattedItemText(timeLeft - 1)));
+                DroppedItemTracker.getInstance().setItemTime(itemUUID, timeLeft - 1);
+                item.setCustomName(ChatUtils.format(ItemUtils.getFormattedItemText(timeLeft - 1, item)));
             }
+
+            item.getLocation().getChunk().unload();
         }
     }
 }

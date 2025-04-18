@@ -25,7 +25,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        ItemUtils.floorItemRemove();
+        ItemUtils.floorItemsRemove();
     }
 
     private void initRunnable() {

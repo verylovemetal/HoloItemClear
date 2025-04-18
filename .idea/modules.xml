@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HoloItemClear.iml" filepath="$PROJECT_DIR$/HoloItemClear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HoloItemClear.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HoloItemClear.main.iml" />
     </modules>
   </component>
 </project>

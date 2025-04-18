@@ -1,5 +1,5 @@
 name: HoloItemClear
-version: '${project.version}'
+version: '${version}'
 main: io.wisp.holoitemclear.Main
 api-version: '1.16'
 permissions:

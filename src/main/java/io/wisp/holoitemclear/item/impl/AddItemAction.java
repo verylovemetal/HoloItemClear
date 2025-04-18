@@ -5,6 +5,7 @@ import io.wisp.holoitemclear.config.CommonConfig;
 import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import io.wisp.holoitemclear.item.IActionItem;
 import io.wisp.holoitemclear.util.ChatUtils;
+import io.wisp.holoitemclear.util.ItemUtils;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,7 +35,7 @@ public class AddItemAction implements IActionItem {
             return;
         }
 
-        DroppedItemTracker.getInstance().addItem(item, clearTime);
+        DroppedItemTracker.getInstance().addItem(item.getUniqueId(), clearTime);
         item.setCustomNameVisible(true);
 
         if (!(Boolean) CommonConfig.HOLOGRAM_AFTER_TIME_ENABLE.getProvider().getValue()) {
@@ -46,8 +47,6 @@ public class AddItemAction implements IActionItem {
             return;
         }
 
-        item.setCustomName(ChatUtils.format(CommonConfig.ITEM_TEXT.getProvider().getValue().toString()
-                .replace("%time%", String.valueOf(clearTime))));
+        item.setCustomName(ItemUtils.getFormattedItemText(clearTime, item));
     }
-
 }
