@@ -15,11 +15,11 @@ public class CodecRegister {
 
     private final Map<Class<?>, ICodec<?>> registry = new HashMap<>();
 
-    public void registerCodecs(ConfigProvider configProvider) {
-        register(new ListCodec(configProvider));
-        register(new StringCodec(configProvider));
-        register((new IntegerCodec(configProvider)));
-        register((new BooleanCodec(configProvider)));
+    public void registerCodecs() {
+        register(new ListCodec());
+        register(new StringCodec());
+        register((new IntegerCodec()));
+        register((new BooleanCodec()));
     }
 
     public void register(ICodec<?> codec) {

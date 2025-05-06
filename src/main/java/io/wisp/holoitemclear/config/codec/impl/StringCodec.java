@@ -4,18 +4,13 @@ package io.wisp.holoitemclear.config.codec.impl;
 import io.wisp.holoitemclear.config.ConfigProvider;
 import io.wisp.holoitemclear.config.codec.ICodec;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class StringCodec implements ICodec<String> {
 
-    private final ConfigProvider configProvider;
-
-    public StringCodec(ConfigProvider configProvider) {
-        this.configProvider = configProvider;
-    }
-
     @Override
-    public String getValue(Object value) {
+    public String getValue(Object value, Map<String, Object> placeholders) {
         if (value == null) {
             System.err.println("Config value is null");
             return "";
@@ -25,6 +20,8 @@ public class StringCodec implements ICodec<String> {
             System.out.println("Codec is not correct type: " + value.getClass().getName());
             return "";
         }
+
+        value = replacePlaceholders((String) value, placeholders);
 
         return (String) value;
     }

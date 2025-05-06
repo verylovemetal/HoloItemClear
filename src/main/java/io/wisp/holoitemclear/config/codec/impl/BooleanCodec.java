@@ -3,16 +3,12 @@ package io.wisp.holoitemclear.config.codec.impl;
 import io.wisp.holoitemclear.config.ConfigProvider;
 import io.wisp.holoitemclear.config.codec.ICodec;
 
+import java.util.Map;
+
 public class BooleanCodec implements ICodec<Boolean> {
 
-    private final ConfigProvider configProvider;
-
-    public BooleanCodec(ConfigProvider configProvider) {
-        this.configProvider = configProvider;
-    }
-
     @Override
-    public Boolean getValue(Object value) {
+    public Boolean getValue(Object value, Map<String, Object> placeholder) {
         if (value == null) {
             System.err.println("Config value is null");
             return false;

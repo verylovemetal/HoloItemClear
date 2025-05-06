@@ -2,12 +2,3 @@ name: HoloItemClear
 version: '${version}'
 main: io.wisp.holoitemclear.Main
 api-version: '1.16'
-permissions:
-  holoitemclear.admin:
-    description: Позволяет использовать команды holoitemclear
-commands:
-  holoitemclear:
-    usage: /holoitemclear
-    aliases:
-      - hic
-      - itemclear

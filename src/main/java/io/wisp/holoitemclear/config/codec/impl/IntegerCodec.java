@@ -3,18 +3,13 @@ package io.wisp.holoitemclear.config.codec.impl;
 import io.wisp.holoitemclear.config.ConfigProvider;
 import io.wisp.holoitemclear.config.codec.ICodec;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class IntegerCodec implements ICodec<Integer> {
 
-    private final ConfigProvider configProvider;
-
-    public IntegerCodec(ConfigProvider configProvider) {
-        this.configProvider = configProvider;
-    }
-
     @Override
-    public Integer getValue(Object value) {
+    public Integer getValue(Object value, Map<String, Object> placeholder) {
         if (value == null) {
             System.err.println("Config value is null");
             return 0;

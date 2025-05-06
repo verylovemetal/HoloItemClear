@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.wisp.holoitemclear"
-version = "1.2.0"
+version = "1.2.2"
 
 repositories {
     mavenCentral()
@@ -61,8 +61,13 @@ tasks.processResources {
 
 tasks.jar {
     dependsOn(configurations.runtimeClasspath)
-    archiveBaseName.set(" ")
+    archiveBaseName.set("HoloItemClear")
 
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(configurations.runtimeClasspath.get().files.map { if (it.isDirectory()) it else zipTree(it) })
+}
+
+tasks.shadowJar {
+    archiveBaseName.set("HoloItemClear")
+    archiveClassifier.set("")
 }

@@ -1,11 +1,17 @@
 package io.wisp.holoitemclear;
 
-import io.wisp.holoitemclear.command.PluginCommands;
-import io.wisp.holoitemclear.listener.ItemListener;
+import io.wisp.holoitemclear.command.CommandController;
+import io.wisp.holoitemclear.command.impl.HoloItemClearCommand;
+import io.wisp.holoitemclear.command.type.impl.PluginSuperCommand;
+import io.wisp.holoitemclear.listener.item.RemoveItemListener;
+import io.wisp.holoitemclear.listener.item.SpawnItemListener;
 import io.wisp.holoitemclear.task.ItemTimeTask;
-import io.wisp.holoitemclear.util.ItemUtils;
+import io.wisp.holoitemclear.util.item.ItemUtil;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 @Getter
 public final class Main extends JavaPlugin {
@@ -18,14 +24,16 @@ public final class Main extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
+        CommandController commandController = CommandController.getInstance();
+        registerCommands().forEach(commandController::registerCommand);
+
         registerListener();
-        registerCommand();
         initRunnable();
     }
 
     @Override
     public void onDisable() {
-        ItemUtils.floorItemsRemove();
+        ItemUtil.floorClear();
     }
 
     private void initRunnable() {
@@ -34,10 +42,15 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerListener() {
-        getServer().getPluginManager().registerEvents(new ItemListener(), this);
+        List.of(
+                new SpawnItemListener(),
+                new RemoveItemListener()
+        ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
-    private void registerCommand() {
-        getCommand("holoitemclear").setExecutor(new PluginCommands());
+    private List<PluginSuperCommand> registerCommands() {
+        return List.of(
+                new HoloItemClearCommand(this)
+        );
     }
 }

@@ -4,13 +4,13 @@ import io.wisp.holoitemclear.Main;
 import io.wisp.holoitemclear.config.CommonConfig;
 import io.wisp.holoitemclear.tracker.DroppedItemTracker;
 import io.wisp.holoitemclear.item.IActionItem;
-import io.wisp.holoitemclear.util.ChatUtils;
-import io.wisp.holoitemclear.util.ItemUtils;
+import io.wisp.holoitemclear.util.item.ItemUtil;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Item;
 
+import java.util.List;
 import java.util.Set;
 
 public class AddItemAction implements IActionItem {
@@ -20,33 +20,29 @@ public class AddItemAction implements IActionItem {
 
     @Override
     public void onAction(Item item) {
+        String worldName = item.getWorld().getName();
+        List<String> blacklistedWorlds = CommonConfig.WORLD_BLACKLIST.getProvider().getValue();
+
+        if (blacklistedWorlds.contains(worldName)) return;
+
         FileConfiguration config = Main.getInstance().getConfig();
-        Set<String> itemsSettings = config.getConfigurationSection("items-settings").getKeys(false);
+        int clearTime = CommonConfig.TIME_CLEAR_ITEM.getProvider().getAsInt();
 
-        int clearTime = CommonConfig.TIME_CLEAR_ITEM.getProvider().getValue();
-        for (String itemSetting : itemsSettings) {
-            if (item.getItemStack().getType() == Material.valueOf(itemSetting)) {
-                clearTime = config.getInt("items-settings." + itemSetting + ".start-clear-item");
-                break;
-            }
+        String materialName = item.getItemStack().getType().name();
+        if (config.isSet("items-settings." + materialName + ".start-clear-item")) {
+            clearTime = config.getInt("items-settings." + materialName + ".start-clear-item");
         }
 
-        if (clearTime <= 0) {
-            return;
-        }
+        if (clearTime <= 0) return;
 
-        DroppedItemTracker.getInstance().addItem(item.getUniqueId(), clearTime);
+        DroppedItemTracker.getInstance().addData(item.getUniqueId(), clearTime);
         item.setCustomNameVisible(true);
 
-        if (!(Boolean) CommonConfig.HOLOGRAM_AFTER_TIME_ENABLE.getProvider().getValue()) {
-            return;
-        }
+        if (!CommonConfig.HOLOGRAM_AFTER_TIME_ENABLE.getProvider().getAsBoolean()) return;
 
         int hologramActivationTime = CommonConfig.HOLOGRAM_AFTER_TIME_ACTIVATION.getProvider().getValue();
-        if (clearTime > hologramActivationTime) {
-            return;
-        }
+        if (clearTime > hologramActivationTime) return;
 
-        item.setCustomName(ItemUtils.getFormattedItemText(clearTime, item));
+        item.setCustomName(ItemUtil.getFormattedItemText(clearTime, item));
     }
 }

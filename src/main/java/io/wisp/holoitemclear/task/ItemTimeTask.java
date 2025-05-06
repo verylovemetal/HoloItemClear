@@ -1,9 +1,10 @@
 package io.wisp.holoitemclear.task;
 
 import io.wisp.holoitemclear.config.CommonConfig;
-import io.wisp.holoitemclear.util.ItemUtils;
+import io.wisp.holoitemclear.util.item.EffectUtil;
+import io.wisp.holoitemclear.util.item.ItemUtil;
 import io.wisp.holoitemclear.tracker.DroppedItemTracker;
-import io.wisp.holoitemclear.util.ChatUtils;
+import io.wisp.holoitemclear.util.color.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -35,18 +36,18 @@ public class ItemTimeTask extends BukkitRunnable {
             if (isHologramAfterTime) {
                 int hologramActivationTime = CommonConfig.HOLOGRAM_AFTER_TIME_ACTIVATION.getProvider().getValue();
                 if (timeLeft > hologramActivationTime) {
-                    DroppedItemTracker.getInstance().setItemTime(itemUUID, timeLeft - 1);
+                    DroppedItemTracker.getInstance().addData(itemUUID, timeLeft - 1);
                     continue;
                 }
             }
 
             if (timeLeft <= 0) {
-                ItemUtils.applyEffectsOnClear(item);
+                EffectUtil.initEffects(item);
                 item.remove();
                 iterator.remove();
             } else {
-                DroppedItemTracker.getInstance().setItemTime(itemUUID, timeLeft - 1);
-                item.setCustomName(ChatUtils.format(ItemUtils.getFormattedItemText(timeLeft - 1, item)));
+                DroppedItemTracker.getInstance().addData(itemUUID, timeLeft - 1);
+                item.setCustomName(ColorUtil.format(ItemUtil.getFormattedItemText(timeLeft - 1, item)));
             }
 
             item.getLocation().getChunk().unload();
